@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Create a new account and get started today.">
+	<title>Create your account | BlueSky</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--blue-950: #082b52;
+			--blue-900: #0a3d73;
+			--blue-700: #1466c3;
+			--blue-500: #2d8cff;
+			--blue-100: #e8f2ff;
+			--blue-50: #f4f8ff;
+			--ink: #10233e;
+			--muted: #6c7d94;
+			--line: #dbe5f1;
+			--white: #ffffff;
+			--danger: #c63b52;
+			--shadow: 0 24px 60px rgba(20, 72, 130, 0.14);
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			min-height: 100vh;
+			margin: 0;
+			color: var(--ink);
+			background: var(--blue-50);
+			font-family: "DM Sans", "Segoe UI", sans-serif;
+		}
+
+		.page-shell {
+			display: grid;
+			grid-template-columns: minmax(340px, 0.9fr) minmax(440px, 1.1fr);
+			min-height: 100vh;
+			overflow: hidden;
+		}
+
+		.intro-panel {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			min-height: 100vh;
+			padding: 48px clamp(32px, 6vw, 88px);
+			color: var(--white);
+			background: linear-gradient(145deg, var(--blue-950) 0%, var(--blue-900) 56%, #1268c7 100%);
+			isolation: isolate;
+		}
+
+		.intro-panel::before,
+		.intro-panel::after {
+			position: absolute;
+			z-index: -1;
+			content: "";
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			border-radius: 50%;
+		}
+
+		.intro-panel::before {
+			width: 460px;
+			height: 460px;
+			right: -190px;
+			bottom: -140px;
+		}
+
+		.intro-panel::after {
+			width: 270px;
+			height: 270px;
+			right: -55px;
+			bottom: -45px;
+		}
+
+		.brand {
+			display: inline-flex;
+			align-items: center;
+			gap: 11px;
+			color: var(--white);
+			font-family: "Space Grotesk", sans-serif;
+			font-size: 1.2rem;
+			font-weight: 700;
+			letter-spacing: 0.01em;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 35px;
+			height: 35px;
+			place-items: center;
+			border-radius: 10px;
+			color: var(--blue-900);
+			background: var(--white);
+			font-size: 1rem;
+		}
+
+		.intro-copy { max-width: 460px; padding: 48px 0 72px; }
+
+		.eyebrow {
+			margin: 0 0 18px;
+			color: #acd1ff;
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+		}
+
+		h1, h2 { font-family: "Space Grotesk", sans-serif; }
+
+		h1 {
+			max-width: 450px;
+			margin: 0;
+			font-size: clamp(2.6rem, 5vw, 4.65rem);
+			line-height: 0.98;
+			letter-spacing: -0.04em;
+		}
+
+		.intro-copy > p:not(.eyebrow) {
+			max-width: 370px;
+			margin: 26px 0 0;
+			color: #d7e9ff;
+			font-size: 1.05rem;
+			line-height: 1.7;
+		}
+
+		.benefits {
+			display: grid;
+			gap: 14px;
+			max-width: 380px;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.benefits li {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			color: #d9eaff;
+			font-size: 0.92rem;
+		}
+
+		.benefits li::before {
+			display: grid;
+			flex: 0 0 23px;
+			width: 23px;
+			height: 23px;
+			place-items: center;
+			border-radius: 50%;
+			color: var(--blue-900);
+			background: #b9dcff;
+			content: "✓";
+			font-size: 0.78rem;
+			font-weight: 700;
+		}
+
+		.form-panel {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 48px clamp(28px, 6vw, 92px);
+			background: var(--white);
+		}
+
+		.form-card { width: min(100%, 500px); }
+
+		.form-header { margin-bottom: 32px; }
+
+		.form-header h2 {
+			margin: 0 0 10px;
+			color: var(--blue-950);
+			font-size: clamp(1.75rem, 3vw, 2.25rem);
+			letter-spacing: -0.035em;
+		}
+
+		.form-header p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+		.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+		.field { display: flex; flex-direction: column; gap: 8px; }
+		.field.full-width { grid-column: 1 / -1; }
+
+		label { color: var(--ink); font-size: 0.82rem; font-weight: 700; }
+
+		input {
+			width: 100%;
+			min-height: 48px;
+			padding: 12px 14px;
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			color: var(--ink);
+			background: var(--white);
+			font: inherit;
+			outline: none;
+			transition: border-color 160ms ease, box-shadow 160ms ease;
+		}
+
+		input::placeholder { color: #a6b4c5; }
+		input:focus { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(45, 140, 255, 0.14); }
+		input[aria-invalid="true"] { border-color: var(--danger); }
+
+		.input-wrap { position: relative; }
+		.input-wrap input { padding-right: 48px; }
+
+		.toggle-password {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			width: 34px;
+			height: 34px;
+			padding: 0;
+			border: 0;
+			border-radius: 6px;
+			color: var(--blue-700);
+			background: transparent;
+			cursor: pointer;
+			font-size: 0.75rem;
+			font-weight: 700;
+			transform: translateY(-50%);
+		}
+
+		.toggle-password:hover { background: var(--blue-100); }
+		.field-error { min-height: 15px; color: var(--danger); font-size: 0.72rem; }
+
+		.form-options {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 14px;
+			margin: 4px 0 24px;
+		}
+
+		.checkbox-label { display: flex; align-items: flex-start; gap: 9px; color: var(--muted); font-size: 0.78rem; font-weight: 500; line-height: 1.45; cursor: pointer; }
+		.checkbox-label input { flex: 0 0 auto; width: 16px; min-height: 16px; margin-top: 1px; accent-color: var(--blue-700); }
+		.checkbox-label a, .login-link { color: var(--blue-700); font-weight: 700; text-decoration: none; }
+		.checkbox-label a:hover, .login-link:hover { text-decoration: underline; }
+
+		.submit-button {
+			width: 100%;
+			min-height: 52px;
+			border: 0;
+			border-radius: 8px;
+			color: var(--white);
+			background: var(--blue-700);
+			box-shadow: 0 8px 18px rgba(20, 102, 195, 0.2);
+			cursor: pointer;
+			font: inherit;
+			font-weight: 700;
+			transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+		}
+
+		.submit-button:hover { background: var(--blue-900); box-shadow: 0 11px 24px rgba(20, 102, 195, 0.27); transform: translateY(-1px); }
+		.submit-button:active { transform: translateY(0); }
+
+		.login-prompt { margin: 24px 0 0; color: var(--muted); font-size: 0.84rem; text-align: center; }
+		.success-message { display: none; padding: 18px; border: 1px solid #b8e0ca; border-radius: 8px; color: #22623c; background: #effbf3; font-size: 0.88rem; line-height: 1.5; }
+		.success-message.visible { display: block; }
+
+		@media (max-width: 850px) {
+			.page-shell { grid-template-columns: 1fr; }
+			.intro-panel { min-height: auto; padding: 30px clamp(24px, 7vw, 70px) 42px; }
+			.intro-copy { padding: 56px 0 44px; }
+			.intro-copy h1 { max-width: 600px; }
+			.intro-copy > p:not(.eyebrow) { max-width: 560px; }
+			.benefits { grid-template-columns: repeat(3, 1fr); max-width: none; }
+			.benefits li { align-items: flex-start; font-size: 0.8rem; }
+			.form-panel { padding: 52px 24px 64px; }
+		}
+
+		@media (max-width: 560px) {
+			.intro-copy { padding: 44px 0 36px; }
+			.intro-copy h1 { font-size: 2.75rem; }
+			.benefits { grid-template-columns: 1fr; gap: 10px; }
+			.form-grid { grid-template-columns: 1fr; gap: 12px; }
+			.field.full-width { grid-column: auto; }
+			.form-header { margin-bottom: 26px; }
+			.form-options { flex-direction: column; }
+		}
+	</style>
+</head>
+<body>
+	<main class="page-shell">
+		<section class="intro-panel" aria-labelledby="welcome-heading">
+			<a class="brand" href="#top" aria-label="BlueSky home">
+				<span class="brand-mark" aria-hidden="true">B</span>
+				BlueSky
+			</a>
+
+			<div class="intro-copy">
+				<p class="eyebrow">A better way forward</p>
+				<h1 id="welcome-heading">Build what comes next.</h1>
+				<p>Join a focused community of people turning good ideas into meaningful progress.</p>
+			</div>
+
+			<ul class="benefits" aria-label="Membership benefits">
+				<li>Simple tools that keep you moving</li>
+				<li>One secure home for your work</li>
+				<li>Support when you need it</li>
+			</ul>
+		</section>
+
+		<section class="form-panel" aria-labelledby="form-heading">
+			<div class="form-card">
+				<div class="form-header">
+					<h2 id="form-heading">Create your account</h2>
+					<p>Start your journey with BlueSky. It only takes a minute.</p>
+				</div>
+
+				<div class="success-message" id="success-message" role="status" aria-live="polite">
+					Your account has been created successfully. Welcome to BlueSky.
+				</div>
+
+				<form id="register-form" novalidate>
+					<div class="form-grid">
+						<div class="field full-width">
+							<label for="full-name">Full name</label>
+							<input id="full-name" name="fullName" type="text" placeholder="e.g. Alex Morgan" autocomplete="name" required>
+							<span class="field-error" id="full-name-error"></span>
+						</div>
+
+						<div class="field">
+							<label for="email">Email address</label>
+							<input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+							<span class="field-error" id="email-error"></span>
+						</div>
+
+						<div class="field">
+							<label for="phone">Phone number <span style="font-weight: 500; color: var(--muted);">(optional)</span></label>
+							<input id="phone" name="phone" type="tel" placeholder="+1 555 123 4567" autocomplete="tel">
+							<span class="field-error" id="phone-error"></span>
+						</div>
+
+						<div class="field">
+							<label for="password">Password</label>
+							<div class="input-wrap">
+								<input id="password" name="password" type="password" placeholder="At least 8 characters" autocomplete="new-password" required minlength="8">
+								<button class="toggle-password" type="button" data-target="password" aria-label="Show password">SHOW</button>
+							</div>
+							<span class="field-error" id="password-error"></span>
+						</div>
+
+						<div class="field">
+							<label for="confirm-password">Confirm password</label>
+							<div class="input-wrap">
+								<input id="confirm-password" name="confirmPassword" type="password" placeholder="Repeat your password" autocomplete="new-password" required>
+								<button class="toggle-password" type="button" data-target="confirm-password" aria-label="Show password">SHOW</button>
+							</div>
+							<span class="field-error" id="confirm-password-error"></span>
+						</div>
+					</div>
+
+					<div class="form-options">
+						<label class="checkbox-label" for="terms">
+							<input id="terms" name="terms" type="checkbox" required>
+							<span>I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>.</span>
+						</label>
+					</div>
+
+					<button class="submit-button" type="submit">Create account</button>
+					<p class="login-prompt">Already have an account? <a class="login-link" href="#login">Sign in</a></p>
+				</form>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const form = document.getElementById("register-form");
+		const successMessage = document.getElementById("success-message");
+
+		function showError(fieldId, message) {
+			const field = document.getElementById(fieldId);
+			const error = document.getElementById(fieldId + "-error");
+			if (!field || !error) return;
+			field.setAttribute("aria-invalid", message ? "true" : "false");
+			error.textContent = message;
+		}
+
+		document.querySelectorAll(".toggle-password").forEach((button) => {
+			button.addEventListener("click", () => {
+				const input = document.getElementById(button.dataset.target);
+				const isHidden = input.type === "password";
+				input.type = isHidden ? "text" : "password";
+				button.textContent = isHidden ? "HIDE" : "SHOW";
+				button.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+			});
+		});
+
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const fullName = document.getElementById("full-name").value.trim();
+			const email = document.getElementById("email").value.trim();
+			const password = document.getElementById("password").value;
+			const confirmPassword = document.getElementById("confirm-password").value;
+			const terms = document.getElementById("terms").checked;
+			let isValid = true;
+
+			showError("full-name", fullName.length < 2 ? "Please enter your full name." : "");
+			showError("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "" : "Please enter a valid email.");
+			showError("password", password.length < 8 ? "Use at least 8 characters." : "");
+			showError("confirm-password", password !== confirmPassword ? "Passwords do not match." : "");
+			if (!terms) isValid = false;
+
+			document.querySelectorAll(".field-error").forEach((error) => {
+				if (error.textContent) isValid = false;
+			});
+
+			if (!isValid) return;
+			form.hidden = true;
+			successMessage.classList.add("visible");
+		});
+	</script>
+</body>
+</html>
